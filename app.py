@@ -1,17 +1,26 @@
-#!/usr/local/bin/python3.8
-
 import re
+import requests
+import docker
 
-# (?P<remote_user>.*)
-log_format = '(?P<host>[\w\.\-]+) (?P<remote_addr>[\d.]+) \- (?P<remote_user>[\w\.\-]+) ' \
+
+from pprint import pprint
+
+log_format = '(?P<container>[\w\.\-]+)\s+\| (?P<host>[\w\.\-]+) (?P<remote_addr>[\d.]+) \- (?P<remote_user>[\w\.\-]+) ' \
              '\[(?P<local_time>.+)\] "(?P<method>[A-Z]+) (?P<request>[\w\.\-\/]+).+" ' \
              '(?P<status>\d{3}) (?P<bytes_sent>\d+) "(?P<http_referer>.+)" "(?P<http_user_agent>.+)"'
 
 if __name__ == "__main__":
 
-    line = 'some.host.name 172.17.0.1 - - [09/Jun/2020:20:40:08 +0000] "GET /server-status?auto HTTP/1.1" 503 197 "-" "munin/2.0.37-1ubuntu0.1 (libwww-perl/6.31)"'
 
-    m = re.match(log_format, line)
-    parsed = m.groupdict()
+    # client = docker.from_env()
+    # container = client.containers.get('local-nginx-proxy')
 
-    print(parsed)
+    # for line in container.logs(stream=True, follow=True):
+    #     line = line.decode('utf-8')
+    #     line = re.sub(r'\x1b\[[0-9;]*m', '', line)
+
+    #     try:
+    #         matches = re.match(log_format, line).groupdict()
+
+    #     except Exception as e:
+    #         pass
